@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=0.5, user-scalable=no">
     <title>edifice</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
       body { margin: 0; overflow: hidden; background: #000; font-family: 'Raleway', sans-serif;  touch-action: none; }
       #ui { position: absolute; top: 20px; left: 20px; color: white; pointer-events: none; z-index: 10; display: none; }
@@ -18,10 +18,7 @@
         text-shadow:0 0 7px #FFFFFF, 0 0 3px #FFFFFF;
       }
       #footer > div:nth-child(1) { flex:1; padding:20px 32px 10px 32px; font-size:50px; }
-      #footer > div:nth-child(2) { padding:38px 32px 25px 32px; text-align:right; font-size:30px; }
-      #hud-edifice-count { color:#edba2d; text-shadow:0 0 5px #FFFFFF, 0 0 3px #FFFFFF; }
-      .hud-button { cursor:pointer; }
-      .hud-button:hover > i { color:#FFFFFF; }
+      #footer > div:nth-child(2) { padding:38px 40px 25px 32px; text-align:right; font-size:30px; }
       .noselect {
         -webkit-touch-callout:none; /* iOS Safari */
           -webkit-user-select:none; /* Safari */
@@ -31,13 +28,17 @@
                   user-select:none; /* Non-prefixed version, currently
                                        supported by Chrome, Edge, Opera and Firefox */
       }
-      .pulse-yellow {
-        color: #d4ae46;
-        text-align: center;
-        font-family: sans-serif;
-        animation: pulse-glow 1.5s ease-in-out infinite alternate;
+      #hud-edifice-count { color:#edba2d; text-shadow:0 0 5px #FFFFFF, 0 0 3px #FFFFFF; }
+      .hud-button { display:inline-block; width:30px; padding-left:4px; text-align:left; cursor:pointer; }
+      .hud-button:hover > i { color:#FFFFFF; }
+      .hud-button-disabled { opacity:0.3; cursor:default !important; }
+      .hud-button-disabled:hover { color:#EEEEEE; !important; }
+      #hud-button-volume-icon { width:20px; padding-left:6px; }
+      .hud-button-hint-pulse {
+        color:#d4ae46;
+        animation:hud-button-hint-pulse-animation 1.5s ease-in-out infinite alternate;
       }
-      @keyframes pulse-glow {
+      @keyframes hud-button-hint-pulse-animation {
         from { text-shadow:0 0 5px #000000; color:#c99e26; }
         to { text-shadow:0 0 20px #c99e26, 0 0 30px #FFFFFF; color:#c99e26; }
       }
@@ -66,13 +67,11 @@ docHead.appendChild(newLink);
       <div class="score-container ai-score" style="display:none;"><span id="score-ai">0</span></div>
     </div-->
     <div id="footer" class="noselect">
-      <div>edifice <span id="hud-edifice-count"></span></div>
+      <div></i>edifice <span id="hud-edifice-count"></span></div>
       <div>
-        <span id="hud-button-start" class="hud-button pulse-yellow" onclick="app.start();"><i class="fa-solid fa-play"></i></span>
-        <span id="hud-button-restart" class="hud-button" style="display:none;" onclick="app.restart();"><i class="fa-solid fa-rotate-right"></i></span>
-        <!--span class="hud-button"  onclick="app.toggleVolume();"><i class="fa-solid fa-volume-high"></i></span-->
-        <!--span class="hud-button"><i class="fa-solid fa-pause"></i></span>
-        <span class="hud-button"><i class="fa-solid fa-volume-high"></i></span-->
+        <span id="hud-button-restart" class="hud-button hud-button-disabled" onclick="app.restart();"><i class="fa-solid fa-rotate-right"></i></span>
+        <span id="hud-button-play-pause" class="hud-button hud-button-hint-pulse" onclick="app.start();"><i id="hud-button-play-pause-icon" class="fa-solid fa-play"></i></span>
+        <span id="hud-button-volume" class="hud-button hud-button-disabled" onclick="app.sound.toggleVolume();"><i id="hud-button-volume-icon" class="fa-solid fa-volume-high"></i></span>
       </div>
     </div>
     <script type="x-shader/x-vertex" id="vertexshader">
@@ -90,9 +89,6 @@ docHead.appendChild(newLink);
         gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
       }
     </script>
-
-    <script type="importmap">
-      { "imports": { "three": "./build/three.module.js" } }
-    </script>
+
   </body>
 </html>
