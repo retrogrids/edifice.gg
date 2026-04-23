@@ -9,13 +9,10 @@
     <style>
       body { margin: 0; overflow: hidden; background: #000; font-family: 'Raleway', sans-serif;  touch-action: none; }
       #ui { position: absolute; top: 20px; left: 20px; color: white; pointer-events: none; z-index: 10; display: none; }
-      .score-container { font-size: 24px; font-weight: bold; color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.8); }
-      .ai-score { color: #000; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
       #footer {
         position:fixed; bottom:0px; width:100%; display:flex;
         font-size:40px;
         color:#DDDDDD;
-        text-shadow:0 0 3px #888888, 0 0 8px #DDDDDD;
       }
       #footer > div:nth-child(1) { flex:1; padding:20px 32px 10px 32px; font-size:50px; }
       #footer > div:nth-child(2) { padding:38px 42px 25px 32px; text-align:right; font-size:30px; }
@@ -25,19 +22,24 @@
            -khtml-user-select:none; /* Konqueror HTML */
              -moz-user-select:none; /* Old versions of Firefox */
               -ms-user-select:none; /* Internet Explorer/Edge */
-                  user-select:none; /* Non-prefixed version, currently
-                                       supported by Chrome, Edge, Opera and Firefox */
+                  user-select:none; /* Non-prefixed version */
       }
-      #hud-edifice { text-shadow:0 0 5px #FFFFFF, 0 0 3px #FFFFFF; }
-      #hud-edifice-count { color:#edba2d; text-shadow:0 0 5px #FFFFFF, 0 0 3px #FFFFFF; }
-      .hud-button { display:inline-block; width:30px; padding-left:4px; text-align:left; cursor:pointer; }
+      #hud-edifice { text-shadow:0 0 5px #444444, 0 0 8px #FFFFFF; }
+      #hud-edifice-count { color:#edba2d; text-shadow:0 0 3px #000000, 0 0 6px #FFFFFF; }
+      .hud-button {
+        display:inline-block;
+        width:30px; padding-left:4px;
+        text-align:left; text-shadow:0 0 3px #444444, 0 0 8px #DDDDDD;
+        cursor:pointer;
+      }
       .hud-button > a > i { color:#DDDDDD; }
       .hud-button:hover > a > i { color:#FFFFFF; }
       .hud-button:hover > i { color:#FFFFFF; }
       .hud-button-disabled { opacity:0.3; cursor:default !important; }
       .hud-button-disabled:hover { color:#DDDDDD; !important; }
       #hud-button-volume-icon { width:20px; padding-left:6px; }
-      #hud-button-discord { padding-left:32px; }
+      #hud-button-discord { padding-left:30px; }
+      #hud-button-kickstarter { padding-left:10px; }
       .hud-button-hint-pulse {
         color:#d4ae46;
         animation:hud-button-hint-pulse-animation 1.5s ease-in-out infinite alternate;
@@ -66,6 +68,7 @@ docHead.appendChild(newLink);
         <span id="hud-button-play-pause" class="hud-button hud-button-hint-pulse" onclick="app.start();"><i id="hud-button-play-pause-icon" class="fa-solid fa-play"></i></span>
         <span id="hud-button-volume" class="hud-button hud-button-disabled" onclick="app.sound.toggleVolume();"><i id="hud-button-volume-icon" class="fa-solid fa-volume-high"></i></span>
         <span id="hud-button-discord" class="hud-button"><a href="https://edifice.gg/discord"><i class="fab fa-discord"></i></a></span>
+        <span id="hud-button-kickstarter" class="hud-button"><a href="https://www.kickstarter.com/projects/reity/edifice"><i class="fa-brands fa-kickstarter"></i></a></span>
       </div>
     </div>
     <script type="x-shader/x-vertex" id="vertexshader">
@@ -82,6 +85,6 @@ docHead.appendChild(newLink);
       void main() {
         gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
       }
-    </script>
+    </script>
   </body>
 </html>
